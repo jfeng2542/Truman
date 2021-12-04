@@ -136,6 +136,11 @@ $('.right.floated.time.meta, .date').each(function() {
     $(this).text(humanized_time_span(time)); 
 });
 
+  //Make hashtags visible as links
+  $('.description').each(function() {
+    $(this).html($(this).text())
+  });
+
   //Sign Up Button
   $('.ui.big.green.labeled.icon.button.signup')
   .on('click', function() {
