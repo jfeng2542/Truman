@@ -172,6 +172,28 @@ async function doPopulate() {
                         postdetail.likes =  getLikes();
                         postdetail.experiment_group = new_post.experiment_group
                         postdetail.post_id = new_post.id;
+
+
+                        //Check the new_post.body for hashtags
+                        var myArray = new_post.body.split(" ");
+                        for (var i = 0; i < myArray.length; i++) {
+                          if (myArray[i].startsWith('#')) {
+                            var tag = myArray[i].substring(myArray[i].indexOf('#') + 1);
+                            if (tag.search(/\W/g) == -1) { //ensure valid characters A-Z, a-z, 0-9 only
+                              //var a = document.createElement('a');
+                              //a.href = "/search?search=" + tag;
+                              //a.appendChild(document.createTextNode("#" + tag));
+                              let link = "<a href='/search?search=" + tag + "'>#" + tag + "</a>";
+                              //let link = `" + <a href='/search?search=` + tag + `'>#` + tag + `</a> + "`;
+                              //let newBody = new_post.body.replace("#" + tag, '" + ' + link + ' + "');
+                              //let newBody = new_post.body.replace("#" + tag, link);
+                              //new_post.body = new_post.body.replace("#" + tag, a);
+                              new_post.body = new_post.body.replace("#" + tag, link);
+                            }
+                          }
+                        }
+
+
                         postdetail.body = new_post.body;
                         postdetail.class = new_post.class;
                         postdetail.picture = new_post.picture;

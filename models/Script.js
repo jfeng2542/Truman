@@ -7,7 +7,7 @@ function timeStringToNum (v) {
 }
 
 const scriptSchema = new mongoose.Schema({
-  body: {type: String, default: '', trim: true},
+  body: {type: Object, default: '', trim: true, index: 'text'}, 
   post_id: Number,
   class: String, //experimental or normal
   picture: String,

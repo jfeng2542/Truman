@@ -82,6 +82,7 @@ const app = express();
 mongoose.Promise = global.Promise;
 
 mongoose.connect(process.env.MONGODB_URI || process.env.MONGOLAB_URI, { useNewUrlParser: true });
+var db = mongoose.connection;
 mongoose.connection.on('error', (err) => {
   console.error(err);
   console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'));
@@ -246,9 +247,11 @@ app.use('/profile_pictures',express.static(path.join(__dirname, 'profile_picture
 /**
  * Primary app routes.
  */
-app.get('/', passportConfig.isAuthenticated, scriptController.getScript);
+app.get('/', passportConfig.isAuthenticated, scriptController.getScriptFeed);
 
 app.get('/newsfeed/:caseId', scriptController.getScriptFeed);
+
+app.get('/search', scriptController.getScriptFeedSearch)
 
 app.post('/post/new', userpostupload.single('picinput'), check, csrf, scriptController.newPost);
 
@@ -350,7 +353,7 @@ app.use(function(err, req, res, next) {
  * Start Express server.
  */
 app.listen(app.get('port'), () => {
-  console.log('%s App is running at http://localhost:%d in %s mode', chalk.green('✓'), app.get('port'), app.get('env')); 
+  console.log('%s App is running at http://localhost:%d in %s mode', chalk.green('✓'), app.get('port'), app.get('env'));
   console.log('  Press CTRL-C to stop\n');
 });
 
