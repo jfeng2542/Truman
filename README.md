@@ -3,14 +3,14 @@ Truman Platform CSE 392 Independent Study Fall 2021
 
 The changes made in this repository include implementation for hashtags, username links ("@username"), and username profile popups.
 
-Hashtags
+Hashtags - Ryan Schmid
 ------
 Explanation...
 
-Username links
+Username links - Lucas
 ------
 Explanation...
 
-Profile popups
+Profile popups - Coco
 ------
 Explanation...
