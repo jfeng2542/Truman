@@ -173,12 +173,28 @@ async function doPopulate() {
                         postdetail.experiment_group = new_post.experiment_group
                         postdetail.post_id = new_post.id;
 
+                        //Check the new_post.body. Chenzhe (Lucas) Xu
+                        var theString = new_post.body;
+                        var myArray = theString.split(" "); //Split each portion by space into an array
+                        var arrayLength = myArray.length;
+                          for(var i = 0; i < arrayLength; i++){
+                            if(myArray[i].includes('@') == true){ //if the element contains @ sign
+                              var userName = myArray[i].substring(myArray[i].lastIndexOf("@")+1); //we need to extract the username after the @ sign
+                              let q = actors_list.find(x=>x.userName == userName);
+                              let url = "/user/" + q.id;
+                              let profileName = q.profile.name;
+                              let profilePic = q.profile.picture;
+                              let urlLink = "<a href='" + url + "'data-profileName='" + profileName + "'data-profilePic='" + profilePic + "'>@" + userName + "</a>";
+                              new_post.body = new_post.body.replace(userName, urlLink); //replace the username in new_posy.body by the link
+                            }
+                          }
+                          //Eg： Hello my friend @hello
 
                         //Check the new_post.body for hashtags
-                        var myArray = new_post.body.split(" ");
-                        for (var i = 0; i < myArray.length; i++) {
-                          if (myArray[i].startsWith('#')) {
-                            var tag = myArray[i].substring(myArray[i].indexOf('#') + 1);
+                        var myArray1 = new_post.body.split(" ");
+                        for (var i = 0; i < myArray1.length; i++) {
+                          if (myArray1[i].startsWith('#')) {
+                            var tag = myArray1[i].substring(myArray1[i].indexOf('#') + 1);
                             if (tag.search(/\W/g) == -1) { //ensure valid characters A-Z, a-z, 0-9 only
                               //var a = document.createElement('a');
                               //a.href = "/search?search=" + tag;
