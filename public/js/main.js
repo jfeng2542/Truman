@@ -137,7 +137,7 @@ $('.right.floated.time.meta, .date').each(function() {
 });
 
   //Make hashtags visible as links
-  $('.description').each(function() {
+  $('.description, .text').each(function() {
     $(this).html($(this).text())
   });
 

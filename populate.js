@@ -172,7 +172,7 @@ async function doPopulate() {
                         postdetail.likes =  getLikes();
                         postdetail.experiment_group = new_post.experiment_group
                         postdetail.post_id = new_post.id;
-
+/*
                         //Check the new_post.body. Chenzhe (Lucas) Xu
                         var theString = new_post.body;
                         var myArray = theString.split(" "); //Split each portion by space into an array
@@ -189,7 +189,7 @@ async function doPopulate() {
                             }
                           }
                           //Eg： Hello my friend @hello
-
+*/
                         //Check the new_post.body for hashtags
                         var myArray1 = new_post.body.split(" ");
                         for (var i = 0; i < myArray1.length; i++) {
@@ -388,6 +388,19 @@ async function doPopulate() {
                     Script.findOne({ post_id: new_replies.reply }, function (err, pr) {
                         if (pr) {
                             var comment_detail = new Object();
+
+                            //Check the new_replies.body for hashtags
+                            var myArray1 = new_replies.body.split(" ");
+                            for (var i = 0; i < myArray1.length; i++) {
+                              if (myArray1[i].startsWith('#')) {
+                                var tag = myArray1[i].substring(myArray1[i].indexOf('#') + 1);
+                                if (tag.search(/\W/g) == -1) { //ensure valid characters A-Z, a-z, 0-9 only
+                                  let link = "<a href='/search?search=%23" + tag + "'>#" + tag + "</a>";
+                                  new_replies.body = new_replies.body.replace("#" + tag, link);
+                                }
+                              }
+                            }
+
 
                             comment_detail.body = new_replies.body
                             comment_detail.commentID = new_replies.id;
