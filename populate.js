@@ -181,11 +181,13 @@ async function doPopulate() {
                             if(myArray[i].includes('@') == true){ //if the element contains @ sign
                               var userName = myArray[i].substring(myArray[i].lastIndexOf("@")+1); //we need to extract the username after the @ sign
                               let q = actors_list.find(x=>x.userName == userName);
-                              let url = "/user/" + q.id;
-                              let profileName = q.profile.name;
-                              let profilePic = q.profile.picture;
-                              let urlLink = "<a href='" + url + "'data-profileName='" + profileName + "'data-profilePic='" + profilePic + "'>@" + userName + "</a>";
-                              new_post.body = new_post.body.replace(userName, urlLink); //replace the username in new_posy.body by the link
+                              if (q) {
+                                let url = "/user/" + q.id;
+                                let profileName = q.profile.name;
+                                let profilePic = q.profile.picture;
+                                let urlLink = "<a href='" + url + "' data-profileName='" + profileName + "' data-profilePic='" + profilePic + "'>@" + userName + "</a><div" + ">...popup...</div>";
+                                new_post.body = new_post.body.replace(userName, urlLink); //replace the username in new_posy.body by the link
+                              }
                             }
                           }
                           //Eg： Hello my friend @hello
@@ -194,10 +196,21 @@ async function doPopulate() {
                         var myArray1 = new_post.body.split(" ");
                         for (var i = 0; i < myArray1.length; i++) {
                           if (myArray1[i].startsWith('#')) {
-                            var tag = myArray1[i].substring(myArray1[i].indexOf('#') + 1);
-                            if (tag.search(/\W/g) == -1) { //ensure valid characters A-Z, a-z, 0-9 only
-                              let link = "<a href='/search?search=%23" + tag + "'>#" + tag + "</a>";
-                              new_post.body = new_post.body.replace("#" + tag, link);
+                            var rawTag = myArray1[i].substring(myArray1[i].indexOf('#') + 1);
+                            if (rawTag) {
+                              var tag = "";
+                              var chars = rawTag.split("");
+                              for (var j = 0; j < chars.length; j++) {//add only alphanumeric characters in the valid tag
+                                if (chars[j].match(/^[0-9a-zA-Z]+$/)) {
+                                  tag = tag.concat(chars[j]);
+                                } else {
+                                  break;
+                                }
+                              }
+                              if (tag !== "") {
+                                let link = "<a href='/search?search=%23" + tag + "'>#" + tag + "</a>";
+                                new_post.body = new_post.body.replace("#" + tag, link);
+                              }
                             }
                           }
                         }
@@ -389,14 +402,25 @@ async function doPopulate() {
                         if (pr) {
                             var comment_detail = new Object();
 
-                            //Check the new_replies.body for hashtags
+                            //Check the new_post.body for hashtags
                             var myArray1 = new_replies.body.split(" ");
                             for (var i = 0; i < myArray1.length; i++) {
                               if (myArray1[i].startsWith('#')) {
-                                var tag = myArray1[i].substring(myArray1[i].indexOf('#') + 1);
-                                if (tag.search(/\W/g) == -1) { //ensure valid characters A-Z, a-z, 0-9 only
-                                  let link = "<a href='/search?search=%23" + tag + "'>#" + tag + "</a>";
-                                  new_replies.body = new_replies.body.replace("#" + tag, link);
+                                var rawTag = myArray1[i].substring(myArray1[i].indexOf('#') + 1);
+                                if (rawTag) {
+                                  var tag = "";
+                                  var chars = rawTag.split("");
+                                  for (var j = 0; j < chars.length; j++) {//add only alphanumeric characters in the valid tag
+                                    if (chars[j].match(/^[0-9a-zA-Z]+$/)) {
+                                      tag = tag.concat(chars[j]);
+                                    } else {
+                                      break;
+                                    }
+                                  }
+                                  if (tag !== "") {
+                                    let link = "<a href='/search?search=%23" + tag + "'>#" + tag + "</a>";
+                                    new_replies.body = new_replies.body.replace("#" + tag, link);
+                                  }
                                 }
                               }
                             }
