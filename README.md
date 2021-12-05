@@ -28,9 +28,9 @@ Firstly, The string variable called theString stores the body of posters to and 
 
 After that, each substring  will be checked for whether it contains ‘@’ in it through For loop. If it does have @ in it, the content after ‘@’ sign will be extracted and stored in userName. 
 
-Next, I use the extracted username to check the user list to confirm. If the user exists, the user’s detailed information will be combined and eventually become an urllink to substitute the username in the post body. For instance, "@Lucas" will be substituted by the link that can show Lucas's profile. If the username does not exist in the user list, the code will do nothing and come to the next for loop cycle.  
+Next, the code is to use the extracted username to check the user list to confirm. If the user exists, the user’s detailed information will be combined and eventually become an urllink to substitute the username in the post body. For instance, "@Lucas" will be substituted by the link that can show Lucas's profile. If the username does not exist in the user list, the code will do nothing and come to the next for loop cycle.  
 
-Finally, when I click the information in the comment area like “@Lucas,” I can see the user’s detailed information.
+Finally, when the users click the information in the comment area like “@Lucas,” they can see the user’s detailed information.
 
 
 Profile popups - Coco
