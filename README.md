@@ -26,4 +26,24 @@ Explanation...
 
 Profile popups - Coco
 ------
-Explanation...
+Summary: The goal of this part is to have a popup window when people @ other user in the comment block. The popup window only shows up until a user @ other people; the popup window will be hidden at other times. It will display the main information of the user being @. 
+```
+  userName
+  userProfilePic
+  userBio
+  userUrl
+```
+To achieve this goal, this part is built based on Lucas' part. After it detects an @ sign, it will fetch the username. Based on the username, the rest of infor will be retrieved easily. To display the main information, the code is added in feed.pug. 
+To figure out the whole structure of Truman's platform, a lot of time is spent on exploring the functionalities of semantics ui and pug. 
+As the test.pug creates a testing page for Truman, the test code is implemented inside test.pug. 
+```
+Example:
+.hide(style = "position:absolute; left:10px; top:-120px; height: 10px; width:100px;border: 3px ")
+            b Noah
+            p#bio  Hi, I am noah! 
+            a.pro_name_link(href='/user/NoahM1121') 
+            img(style='width:100px; height:70px' src='imgsrc')
+```
+
+
+
