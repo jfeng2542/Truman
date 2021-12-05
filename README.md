@@ -22,7 +22,16 @@ In addition, a small amount of code was added to main.js for turning the post an
 
 Username links - Lucas
 ------
-Explanation...
+Summary: The purpose of this part is to extract the username after @ sign and then substitute it to the link which is composed of profile, picture, and name. After that, when the users click the content like "@Lucas," they will be redirected to Lucas' profile. The file edited was populate.js.
+
+Firstly, The string variable called theString stores the body of posters to and then split the content by each space. For example, if "See @Lucas" is the content, this string will be divided into "See" and "@Lucas."
+
+After that, each substring  will be checked for whether it contains ‘@’ in it through For loop. If it does have @ in it, the content after ‘@’ sign will be extracted and stored in userName. 
+
+Next, I use the extracted username to check the user list to confirm. If the user exists, the user’s detailed information will be combined and eventually become an urllink to substitute the username in the post body. For instance, "@Lucas" will be substituted by the link that can show Lucas's profile. If the username does not exist in the user list, the code will do nothing and come to the next for loop cycle.  
+
+Finally, when I click the information in the comment area like “@Lucas,” I can see the user’s detailed information.
+
 
 Profile popups - Coco
 ------
