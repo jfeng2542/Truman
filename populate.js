@@ -28,6 +28,7 @@ dotenv.config({ path: '.env' });
 
 var MongoClient = require('mongodb').MongoClient
     , assert = require('assert');
+const { profile } = require('console');
 
 
 //var connection = mongo.connect('mongodb://127.0.0.1/test');
@@ -181,11 +182,20 @@ async function doPopulate() {
                             if(myArray[i].includes('@') == true){ //if the element contains @ sign
                               var userName = myArray[i].substring(myArray[i].lastIndexOf("@")+1); //we need to extract the username after the @ sign
                               let q = actors_list.find(x=>x.userName == userName);
-                              let url = "/user/" + q.id;
-                              let profileName = q.profile.name;
-                              let profilePic = q.profile.picture;
-                              let urlLink = "<a href='" + url + "'data-profileName='" + profileName + "'data-profilePic='" + profilePic + "'>@" + userName + "</a>";
-                              new_post.body = new_post.body.replace(userName, urlLink); //replace the username in new_posy.body by the link
+                              if(q){
+                                let url = "/user/" + q.id;
+                                let profileName = q.profile.name;
+                                let profilePic = q.profile.picture;
+                                // modal from bootstrap
+                                // add eventlistener to show the modal
+                                let urlLink = "<a href='" + url + "' data-profileName='" + profileName + "' data-profilePic='" + profilePic + "'>@" + userName + "</a><div id = 'popup'> <p> lhlihil </p> </div>" ;
+                                let bio = q.bio;
+                                // document.getElementById('output').innerHTML = profileName;
+                                // document.getElementById('bio').innerHTML = bio;
+                                // document.getElementById('link').innerHTML = urlLink;
+                                // document.getElementById('profilePic').innerHTML = profilePic;
+                                new_post.body = new_post.body.replace(userName, urlLink); //replace the username in new_posy.body by the link
+                              }
                             }
                           }
                           //Eg： Hello my friend @hello

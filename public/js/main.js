@@ -18,6 +18,12 @@ $(window).on("load", function() {
       .transition('fade')
     ;
   });
+  $('.hide').hide();
+
+  $("input.newcomment").click( function(){
+    $(".hide").show(500);
+    console.log("in input comment");
+  });
 
   //check bell
   if (!(top.location.pathname === '/login' || top.location.pathname === '/signup'))
