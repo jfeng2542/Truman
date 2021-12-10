@@ -174,7 +174,7 @@ async function doPopulate() {
                         postdetail.experiment_group = new_post.experiment_group
                         postdetail.post_id = new_post.id;
 /*
-                        //Check the new_post.body. Chenzhe (Lucas) Xu
+                        //Check the username and substitute it to link. By Chenzhe Xu
                         var theString = new_post.body;
                         var myArray = theString.split(" "); //Split each portion by space into an array
                         var arrayLength = myArray.length;
