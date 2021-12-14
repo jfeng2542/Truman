@@ -173,7 +173,7 @@ async function doPopulate() {
                         postdetail.likes =  getLikes();
                         postdetail.experiment_group = new_post.experiment_group
                         postdetail.post_id = new_post.id;
-/*
+
                         //Check the username and substitute it to link. By Chenzhe Xu
                         var theString = new_post.body;
                         var myArray = theString.split(" "); //Split each portion by space into an array
@@ -199,7 +199,7 @@ async function doPopulate() {
                             }
                           }
                           //Eg： Hello my friend @hello
-*/
+
                         //Check the new_post.body for hashtags
                         var myArray1 = new_post.body.split(" ");
                         for (var i = 0; i < myArray1.length; i++) {
