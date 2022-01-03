@@ -480,6 +480,29 @@ exports.newPost = (req, res) => {
     post.absTime = Date.now();
     post.relativeTime = post.absTime - user.createdAt;
 
+    //Check the post.body for hashtags
+    var myArray1 = post.body.split(" ");
+    for (var i = 0; i < myArray1.length; i++) {
+      if (myArray1[i].startsWith('#')) {
+        var rawTag = myArray1[i].substring(myArray1[i].indexOf('#') + 1);
+        if (rawTag) {
+          var tag = "";
+          var chars = rawTag.split("");
+          for (var j = 0; j < chars.length; j++) {//add only alphanumeric characters in the valid tag
+            if (chars[j].match(/^[0-9a-zA-Z]+$/)) {
+              tag = tag.concat(chars[j]);
+            } else {
+              break;
+            }
+          }
+          if (tag !== "") {
+            let link = "<a href='/search?search=%23" + tag + "'>#" + tag + "</a>";
+            post.body = post.body.replace("#" + tag, link);
+          }
+        }
+      }
+    }
+
     //if numPost/etc never existed yet, make it here - should never happen in new users
     if (!(user.numPosts) && user.numPosts < -1)
     {
