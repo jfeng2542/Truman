@@ -645,6 +645,30 @@ exports.postUpdateFeedAction = (req, res, next) => {
         user.numReplies = user.numReplies + 1;
         cat.new_comment_id = user.numReplies; 
         cat.comment_body = req.body.comment_text;
+        //console.log("Cat: " + cat.comment_body + "; " + typeof cat.comment_body);
+        //Check the cat.comment_body for hashtags
+        var myArray1 = cat.comment_body.split(" ");
+        for (var i = 0; i < myArray1.length; i++) {
+          if (myArray1[i].startsWith('#')) {
+            var rawTag = myArray1[i].substring(myArray1[i].indexOf('#') + 1);
+            if (rawTag) {
+              var tag = "";
+              var chars = rawTag.split("");
+              for (var j = 0; j < chars.length; j++) {//add only alphanumeric characters in the valid tag
+                if (chars[j].match(/^[0-9a-zA-Z]+$/)) {
+                  tag = tag.concat(chars[j]);
+                } else {
+                  break;
+                }
+              }
+              if (tag !== "") {
+                let link = "<a href='/search?search=%23" + tag + "'>#" + tag + "</a>";
+                cat.comment_body = cat.comment_body.replace("#" + tag, link);
+              }
+            }
+          }
+        }
+        //console.log("Cat: " + cat.comment_body + "; " + typeof cat.comment_body);
         //console.log("Start Time is: "+user.feedAction[feedIndex].startTime);
         //console.log("DATE Time is: "+req.body.new_comment);
         cat.commentTime = req.body.new_comment - user.feedAction[feedIndex].startTime;
@@ -959,6 +983,30 @@ exports.postUpdateUserPostFeedAction = (req, res, next) => {
         user.numReplies = user.numReplies + 1;
         cat.commentID = 900 + user.numReplies; //this is so it doesn't get mixed with actor comments
         cat.body = req.body.comment_text;
+        //console.log("cat: " + cat.body + "; " + typeof cat.body);
+        //Check the cat.body for hashtags
+        var myArray1 = cat.body.split(" ");
+        for (var i = 0; i < myArray1.length; i++) {
+          if (myArray1[i].startsWith('#')) {
+            var rawTag = myArray1[i].substring(myArray1[i].indexOf('#') + 1);
+            if (rawTag) {
+              var tag = "";
+              var chars = rawTag.split("");
+              for (var j = 0; j < chars.length; j++) {//add only alphanumeric characters in the valid tag
+                if (chars[j].match(/^[0-9a-zA-Z]+$/)) {
+                  tag = tag.concat(chars[j]);
+                } else {
+                  break;
+                }
+              }
+              if (tag !== "") {
+                let link = "<a href='/search?search=%23" + tag + "'>#" + tag + "</a>";
+                cat.body = cat.body.replace("#" + tag, link);
+              }
+            }
+          }
+        }
+        //console.log("cat: " + cat.body + "; " + typeof cat.body);
         cat.isUser = true;
         cat.absTime = Date.now();
         cat.time = cat.absTime - user.createdAt;
