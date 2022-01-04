@@ -2,6 +2,11 @@ const Script = require('../models/Script.js');
 const User = require('../models/User');
 const Notification = require('../models/Notification');
 const _ = require('lodash');
+const CSVToJSON = require("csvtojson");
+//var async = require('async');
+
+// List of actors retrieved from CSV file
+var actors_list;
 
 function shuffle(array) {
   var currentIndex = array.length, temporaryValue, randomIndex;
@@ -22,6 +27,19 @@ function shuffle(array) {
   return array;
 }
 
+// Initializes values of actors_list
+async function getActorsList(postBody) {
+  let promise = await new Promise((resolve, reject) => {
+    console.log("Reading actors list...");
+    CSVToJSON().fromFile('../input/actors.csv').then(function(json_array) {
+      actors_list = json_array;
+      console.log("Finished getting the actors_list");
+      resolve("done");
+    });
+  })
+}
+
+getActorsList();
 
 /**
  * GET /
@@ -480,11 +498,35 @@ exports.newPost = (req, res) => {
     post.absTime = Date.now();
     post.relativeTime = post.absTime - user.createdAt;
 
-    //Check the post.body for hashtags
-    var myArray1 = post.body.split(" ");
-    for (var i = 0; i < myArray1.length; i++) {
-      if (myArray1[i].startsWith('#')) {
-        var rawTag = myArray1[i].substring(myArray1[i].indexOf('#') + 1);
+    //Checks for username tags and hashtags to substitute them with links
+    //Eg：Hello my friend @brian #funtimes
+    var myArray = post.body.split(" "); //Split each portion by space into an array
+    for(var i = 0; i < myArray.length; i++) {
+      if(myArray[i].startsWith('@')) { //if the element starts with @ sign
+        //var userName = myArray[i].substring(myArray[i].lastIndexOf("@") + 1); //we need to extract the username after the @ sign
+        var userName = myArray[i].substring(myArray[i].indexOf("@") + 1);
+        //console.log("username: " + userName);
+        let urlLink = "<a href='/user/" + userName + "'>@" + userName + "</a>";
+        post.body = post.body.replace("@" + userName, urlLink); //replace the username in postBody by the link
+        // let q = actors_list.find(x => x.userName == userName);
+        // console.log("q: " + q);
+        // if(q) {
+        //   let profileName = q.profile.name;
+        //   let profilePic = q.profile.picture;
+        //   // modal from bootstrap
+        //   // add eventlistener to show the modal
+        //   //let urlLink = "<a href='/user/"" + userName + "' data-profileName='" + profileName + "' data-profilePic='" + profilePic + "'>@" + userName + "</a><div id = 'popup'> <p> lhlihil </p> </div>" ;
+        //   let urlLink = "<a href='/user/" + userName + "'>@" + userName + "</a>";
+        //   let bio = q.bio;
+        //   // document.getElementById('output').innerHTML = profileName;
+        //   // document.getElementById('bio').innerHTML = bio;
+        //   // document.getElementById('link').innerHTML = urlLink;
+        //   // document.getElementById('profilePic').innerHTML = profilePic;
+        //   post.body = post.body.replace(userName, urlLink); //replace the username in postBody by the link
+        // }
+      }
+      if(myArray[i].startsWith('#')) {
+        var rawTag = myArray[i].substring(myArray[i].indexOf('#') + 1);
         if (rawTag) {
           var tag = "";
           var chars = rawTag.split("");
