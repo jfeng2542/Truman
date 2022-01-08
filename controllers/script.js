@@ -2,8 +2,8 @@ const Script = require('../models/Script.js');
 const User = require('../models/User');
 const Notification = require('../models/Notification');
 const _ = require('lodash');
-const CSVToJSON = require("csvtojson");
-//var async = require('async');
+const CSVToJSON = require('csvtojson');
+//const postbox = document.getElementById('postbox');
 
 // List of actors retrieved from CSV file. Used to check if username tags exist
 var actors_list;
@@ -28,16 +28,28 @@ function shuffle(array) {
 }
 
 // Initializes values of actors_list by retrieving actor data from actors.csv
-async function getActorsList(postBody) {
+async function getActorsList() {
   let promise = await new Promise((resolve, reject) => {
     console.log("Reading actors list...");
-    CSVToJSON().fromFile('../input/actors.csv').then(function(json_array) {
+    CSVToJSON().fromFile('./input/actors.csv').then(function(json_array) {
       actors_list = json_array;
       console.log("Finished getting the actors_list");
       resolve("done");
+    }).catch((err) => {
+      console.error(err);
     });
   });
 }
+
+// // Searches through actors_list json
+// const searchUsers = searchText => {
+//   let matches = actors_list.filter(state => {
+//     const regex = new RegExp(`^@${searchText}`, 'gi');
+
+//   });
+// }
+
+// postbox.addEventListener('input', () => searchUsers(postbox.value));
 
 getActorsList();
 
