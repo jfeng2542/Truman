@@ -55,4 +55,19 @@ Example:
 ```
 
 
+December 2021 - January 2022 
+=======================
 
+Changes made during this time period were made by Jeremy Feng.
+
+Hashtags in User Posts and Comments
+------
+File edited: ./controllers/script.js
+
+Summary: This implementation uses Ryan Schmid's hashtag implementation. When a user creates a post or comment, the string of the post or comment is split by spaces, and each part of the string is stored into an array. Then, the array is iterated through to check if any words in the post begin with a "#". If so, change that index into a link by embedding it with the "app.get('/search'…" route. Finally, after iterating through the array, combine all the elements back into one string and return it as a post or comment.
+
+Username Tags in User Posts and Comments
+------
+File edited: ./controllers/script.js
+
+Summary: This implementation is similar to Ryan Schmid's hashtag implementation. The difference is that instead of checking for the "#" symbol, the "@" symbol is checked for. Another difference is that instead of using the "/search" route, the "/user" route is user.
