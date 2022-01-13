@@ -492,8 +492,8 @@ exports.newPost = (req, res) => {
       if(myArray[i].startsWith('@')) { //if the element starts with @ sign
         var userName = myArray[i].substring(myArray[i].indexOf("@") + 1); //we need to extract the username after the @ sign
         let q = actors_list.find(x => x == userName);
-        console.log("q: " + q.username);
-        if(q) {
+        //console.log("q: " + q.username);
+        if(q != undefined) {
           //let profileName = q.name;
           //let profilePic = q.picture;
           // modal from bootstrap
@@ -677,8 +677,8 @@ exports.postUpdateFeedAction = (req, res, next) => {
           if(myArray1[i].startsWith('@')) { //if the element starts with @ sign
             var userName = myArray1[i].substring(myArray1[i].indexOf("@") + 1); //we need to extract the username after the @ sign
             let q = actors_list.find(x => x == userName);
-            console.log("q: " + q.username);
-            if(q) {
+            //console.log("q: " + q.username);
+            if(q != undefined) {
               //let profileName = q.name;
               //let profilePic = q.picture;
               // modal from bootstrap
@@ -1034,8 +1034,8 @@ exports.postUpdateUserPostFeedAction = (req, res, next) => {
           if(myArray1[i].startsWith('@')) { //if the element starts with @ sign
             var userName = myArray1[i].substring(myArray1[i].indexOf("@") + 1); //we need to extract the username after the @ sign
             let q = actors_list.find(x => x == userName);
-            console.log("q: " + q.username);
-            if(q) {
+            //console.log("q: " + q.username);
+            if(q != undefined) {
               //let profileName = q.name;
               //let profilePic = q.picture;
               // modal from bootstrap
