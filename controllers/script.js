@@ -3,10 +3,9 @@ const User = require('../models/User');
 const Notification = require('../models/Notification');
 const _ = require('lodash');
 const CSVToJSON = require('csvtojson');
-//const postbox = document.getElementById('postbox');
 
-// List of actors retrieved from CSV file. Used to check if username tags exist
-var actors_list;
+// List of actors' usernames. Used to check if username tags exist
+var actors_list = require('../public/actors.json');
 
 function shuffle(array) {
   var currentIndex = array.length, temporaryValue, randomIndex;
@@ -27,31 +26,7 @@ function shuffle(array) {
   return array;
 }
 
-// Initializes values of actors_list by retrieving actor data from actors.csv
-async function getActorsList() {
-  let promise = await new Promise((resolve, reject) => {
-    console.log("Reading actors list...");
-    CSVToJSON().fromFile('./input/actors.csv').then(function(json_array) {
-      actors_list = json_array;
-      console.log("Finished getting the actors_list");
-      resolve("done");
-    }).catch((err) => {
-      console.error(err);
-    });
-  });
-}
 
-// // Searches through actors_list json
-// const searchUsers = searchText => {
-//   let matches = actors_list.filter(state => {
-//     const regex = new RegExp(`^@${searchText}`, 'gi');
-
-//   });
-// }
-
-// postbox.addEventListener('input', () => searchUsers(postbox.value));
-
-getActorsList();
 
 /**
  * GET /
@@ -516,7 +491,7 @@ exports.newPost = (req, res) => {
     for(var i = 0; i < myArray.length; i++) {
       if(myArray[i].startsWith('@')) { //if the element starts with @ sign
         var userName = myArray[i].substring(myArray[i].indexOf("@") + 1); //we need to extract the username after the @ sign
-        let q = actors_list.find(x => x.username == userName);
+        let q = actors_list.find(x => x == userName);
         console.log("q: " + q.username);
         if(q) {
           //let profileName = q.name;
@@ -701,7 +676,7 @@ exports.postUpdateFeedAction = (req, res, next) => {
         for (var i = 0; i < myArray1.length; i++) {
           if(myArray1[i].startsWith('@')) { //if the element starts with @ sign
             var userName = myArray1[i].substring(myArray1[i].indexOf("@") + 1); //we need to extract the username after the @ sign
-            let q = actors_list.find(x => x.username == userName);
+            let q = actors_list.find(x => x == userName);
             console.log("q: " + q.username);
             if(q) {
               //let profileName = q.name;
@@ -1058,7 +1033,7 @@ exports.postUpdateUserPostFeedAction = (req, res, next) => {
         for (var i = 0; i < myArray1.length; i++) {
           if(myArray1[i].startsWith('@')) { //if the element starts with @ sign
             var userName = myArray1[i].substring(myArray1[i].indexOf("@") + 1); //we need to extract the username after the @ sign
-            let q = actors_list.find(x => x.username == userName);
+            let q = actors_list.find(x => x == userName);
             console.log("q: " + q.username);
             if(q) {
               //let profileName = q.name;
