@@ -3,14 +3,14 @@
 console.log('Started data loading script !!');
 
 
-var async = require('async')
+var async = require('async');
 var Actor = require('./models/Actor.js');
 var Script = require('./models/Script.js');
 var Notification = require('./models/Notification.js');
 const _ = require('lodash');
 const dotenv = require('dotenv');
 var mongoose = require('mongoose');
-var fs = require('fs')
+var fs = require('fs');
 const CSVToJSON = require("csvtojson");
 //input files
 /********
@@ -77,9 +77,19 @@ async function doPopulate() {
     }).then(function(result){ //Convert the actors csv file to json, store in actors_list
       return new Promise((resolve, reject) => {
         console.log("Reading actors list...");
-        CSVToJSON().fromFile('./input/actors.csv').then(function(json_array){
+        CSVToJSON().fromFile('./input/actors.csv').then(function(json_array) {
+          let actors_usernames = '[';
           actors_list = json_array;
           console.log("Finished getting the actors_list");
+          for(let i = 0; i < actors_list.length - 1; i++) {   // Creates JSON array of actors' usernames in the form of a string
+            actors_usernames += '\"' + actors_list[i].username + '\", ';
+          }
+          actors_usernames += '\"' + actors_list[actors_list.length - 1].username + '\"]';  // Include last element of usernames
+          fs.writeFile("./public/actors.json", actors_usernames, function(err) {
+            if(err)
+              return console.error(err);
+            console.log("Created file with list of actors");
+          });
           resolve("done");
         });
       });
@@ -323,14 +333,13 @@ async function doPopulate() {
   Actors must be in DB first to add them correctly to the post
   *************************/
   }).then(function(result){
-    console.log("starting notifiction instances...");
+    console.log("starting notification instances...");
     return new Promise((resolve, reject) => {
       async.each(notification_list, function (new_notify, callback) {
           Actor.findOne({ username: new_notify.actor }, (err, act) => {
               if (err) { console.log("createNotificationInstances error"); console.log(err); return; }
               // console.log("start post for: "+new_notify.id);
               if (act) {
-
                   var notifydetail = new Object();
 
                   if (new_notify.userPost >= 0 && !(new_notify.userPost === ""))
@@ -363,7 +372,7 @@ async function doPopulate() {
                           callback(err);
                       }
                        //console.log('Saved New Post: ' + script.id);
-                       console.log("saved a post");
+                       console.log("saved a post with time: " + notifydetail.time);
                       callback();
                   });
               }//if ACT
