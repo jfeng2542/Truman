@@ -71,3 +71,9 @@ Username Tags in User Posts and Comments
 File edited: ./controllers/script.js
 
 Summary: This implementation is similar to Ryan Schmid's hashtag implementation. The difference is that instead of checking for the "#" symbol, the "@" symbol is checked for. Another difference is that instead of using the "/search" route, the "/user" route is user.
+
+Creation of actors.json file in ./public directory
+------
+File edited: ./populate.js
+
+Summary: First, a new file in ./public is created called actors.json. This file will hold a JSON array of the usernames of all the actors. In populate.js, while retrieving the data from ./input/actors.csv, the usernames of the actors are written into actors.json in the correct JSON format. If the actors.json doesn't exist, a new file is created. Otherwise, it overwrites the previous data in the file.
