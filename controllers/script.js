@@ -2,7 +2,6 @@ const Script = require('../models/Script.js');
 const User = require('../models/User');
 const Notification = require('../models/Notification');
 const _ = require('lodash');
-const CSVToJSON = require('csvtojson');
 
 // List of actors' usernames. Used to check if username tags exist
 var actors_list = require('../public/actors.json');
@@ -25,7 +24,6 @@ function shuffle(array) {
 
   return array;
 }
-
 
 
 /**
@@ -1148,4 +1146,3 @@ exports.postUpdateUserPostFeedAction = (req, res, next) => {
     });
   });
 }
-
