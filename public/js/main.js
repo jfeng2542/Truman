@@ -88,42 +88,44 @@ $(window).on("load", function() {
     //return true;
   });
 
-  const Bloodhound = require('bloodhound-js');
-  // List of actors' usernames. Used to check if username tags exist
-  var actors_list = require('../public/actors.json');
-  // Implements typeahead using actors.json for the suggestions
-  var actors = new Bloodhound({
-    datumTokenizer: function(d) {
-      console.log('d: ' + d);
-      return Bloodhound.tokenizers.whitespace(d); 
-    },
-    queryTokenizer: Bloodhound.tokenizers.whitespace,
-    local: actors_list
+  function initTypeahead() {
+    const Bloodhound = require('bloodhound-js');
+    var actors_list = require('../public/actors.json');   // List of actors' usernames. Used to check if username tags exist
+    var actors = new Bloodhound({                         // Implements typeahead using actors.json for the suggestions
+      datumTokenizer: function(d) {
+        console.log('d: ' + d);
+        return Bloodhound.tokenizers.whitespace(d); 
+      },
+      queryTokenizer: Bloodhound.tokenizers.whitespace,
+      local: actors_list
+    });
+    actors.initialize();
+    $('.typeahead').typeahead(
+      {
+        highlight: true,  /* Highlights matching letters in suggestions */
+      },
+      {
+        name: 'actors',
+        source: actors.ttAdapter(),
+        limit: 5          /* Specify max number of suggestions to be displayed */
+      }
+    );
+  }
+
+  $('.typeahead').click(function() {
+    console.log("Handler for .click() called");
+    initTypeahead();
   });
 
-  actors.initialize();
-
-  $('.typeahead').typeahead(
-    {
-      hint: true,
-      highlight: true,  /* Enable substring highlighting */
-      minLength: 1      /* Specify minimum characters required for showing suggestions */
-    },
-    {
-      name: 'actors',
-      displayKey: 'name',
-      source: actors.ttAdapter(),
-      limit: 5          /* Specify max number of suggestions to be displayed */
-    }
-  ).on('keypress', this, function(event) {
-    if(event.keyCode == 50) {       /* If @ key is pressed, open the typeahead? */
-      console.log("@ was pressed");
-      //$('.typeahead').typeahead('open');
-    }
-    // else if(event.keyCode == 13 || event.keyCode == 27) {   /* If enter key is pressed, close the typeahead */
-    //   $('.typeahead').typeahead('close');
-    // }
-  });
+  // .on('keypress', this, function(event) {
+  //   if(event.keyCode == 50) {       /* If @ key is pressed, open the typeahead */
+  //     console.log("@ was pressed");
+  //     //$('.typeahead').typeahead('open');
+  //   }
+  //   // else if(event.keyCode == 13) {   /* If enter key is pressed, close the typeahead */
+  //   //   $('.typeahead').typeahead('close');
+  //   // }
+  // });
 
   //Picture Preview on Image Selection
   function readURL(input) {

@@ -19,7 +19,6 @@ html
       body {
       background-color: #F5F8FA;
       padding: 0em;
-      
       }
       .hidden 
       { 
@@ -72,7 +71,35 @@ html
         margin-top: 8px;
         vertical-align: middle;
       }
-      
+      /* Typeahead CSS code */
+      .typeahead, .tt-input, .tt-hint {
+        background-color: #F5F8FA;
+        padding: 0em;
+      }
+      .tt-input {
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+      }
+      .tt-hint {
+        color: #999999;
+      }
+      .tt-menu {
+        background-color: #F5F8FA;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        padding: 0em;
+      }
+      .tt-suggestion {    /* Set suggestion dropdown */
+        padding: 3px 20px;
+      }
+      .tt-suggestion:hover {
+        cursor: pointer;
+        background-color: #0097CF;
+        color: #F5F8FA;
+      }
+      .tt-suggestion p {
+        margin: 0;
+      }
   script.
     if ('serviceWorker' in navigator) {
     console.log("Will the service worker register?");
@@ -84,13 +111,16 @@ html
     });
     }
   script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js')
-  //script(src='/public/js/lib/jquery-3.1.1.min.js')
+  //-script(src='/public/js/lib/jquery-3.1.1.min.js')
   script(src='/public/js/lib/humanized_time_span.js')
-  //script(src='/js/lib/lazyload.transpiled.min.js')
-  //script(src='/js/lib/bootstrap.min.js') humanized_time_span.js
-  //<script src="lazysizes.min.js" async=""></script>
+  //-script(src='/js/lib/lazyload.transpiled.min.js')
+  //-script(src='/js/lib/bootstrap.min.js') humanized_time_span.js
+  //-<script src="lazysizes.min.js" async=""></script>
   script(src='/public/js/lib/lazysizes.min.js')
   script(src='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js')
+  //-script(src='https://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.js')
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.2.1/bloodhound.min.js")
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.2.1/typeahead.jquery.min.js")
   script(src='/public/js/main.js')
 
   body
@@ -99,7 +129,7 @@ html
       include partials/ui_flash
       block content
 
-    //include partials/ui_footer
+    //-include partials/ui_footer
     //- New Post Modal
     //-
       var nudge = "no";
