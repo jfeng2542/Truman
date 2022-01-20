@@ -77,3 +77,12 @@ Creation of actors.json file in ./public directory
 File edited: ./populate.js
 
 Summary: First, a new file in ./public is created called actors.json. This file will hold a JSON array of the usernames of all the actors. In populate.js, while retrieving the data from ./input/actors.csv, the usernames of the actors are written into actors.json in the correct JSON format. If the actors.json doesn't exist, a new file is created. Otherwise, it overwrites the previous data in the file.
+
+Typeahead
+------
+Files edited:
+- ./views/ui_layout_no.pug
+- ./views/script.pug
+- ./public/js/main.js
+
+Current Situation:
