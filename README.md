@@ -85,4 +85,4 @@ Files edited:
 - ./views/script.pug
 - ./public/js/main.js
 
-Current Situation:
+Current Situation: In ui_layout_no.pug, I edited the script to source the Bloodhound and Typeahead files. I also added in the CSS code required for the typeahead itself. In script.pug, I labeled the textarea that is used for user posts with the typeahead class, so that the jQuery typeahead code will affect any input textareas with the typeahead class in it. In main.js, I added in a function that will initialize the search engine required for the typeahead, as well as initialize the typeahead itself. From what I understood, the problem was that the jQuery code for the typeahead is not called when the user types in their post. One possible solution would be to place the code in main.js into ./controllers/script.js instead. The problem with that is that you receive an "undefined" error, where the "$" for the jQuery is undefined. And at that point, we must still figure out if the jQuery is actually called or not.
